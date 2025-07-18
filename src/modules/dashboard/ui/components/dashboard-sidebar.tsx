@@ -1,6 +1,12 @@
 "use client";
 
+import { cn } from "@/lib/utils";
+import { BotIcon, StarIcon, VideoIcon } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
+import { DashboardUserButton } from "./dashboard-user-button";
 import {
   Sidebar,
   SidebarContent,
@@ -12,11 +18,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { cn } from "@/lib/utils";
-import { BotIcon, StarIcon, VideoIcon } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 
 const firstSection = [
   { icon: VideoIcon, label: "Meetings", href: "/meetings" },
@@ -24,9 +25,6 @@ const firstSection = [
 ];
 
 const secondSection = [{ icon: StarIcon, label: "Upgrade", href: "/upgrade" }];
-
-import React from "react";
-import { DashboardUserButton } from "./dashoboard-user-button";
 
 export const DashboardSidebar = () => {
   const pathname = usePathname();
