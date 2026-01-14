@@ -7,10 +7,12 @@ import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { auth } from "@/lib/auth";
 import { getQueryClient, trpc } from "@/trpc/server";
 
-import { ErrorState } from "@/components/error-state";
-import { LoadingState } from "@/components/loading-state";
 import { ListHeader } from "@/modules/agents/ui/components/list-header";
-import { AgentsView } from "@/modules/agents/ui/views/agents-view";
+import {
+  AgentsView,
+  AgentsViewError,
+  AgentsViewLoading,
+} from "@/modules/agents/ui/views/agents-view";
 import type { SearchParams } from "nuqs";
 import { loadSearchParams } from "@/modules/agents/params";
 interface Props {
@@ -39,22 +41,8 @@ const AgentsPage = async ({ searchParams }: Props) => {
     <>
       <ListHeader />
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <Suspense
-          fallback={
-            <LoadingState
-              title="Loading Agents"
-              description="This may take a few seconds..."
-            />
-          }
-        >
-          <ErrorBoundary
-            fallback={
-              <ErrorState
-                title="Failed to load agents"
-                description="There was an error loading the agents. Please try again later."
-              />
-            }
-          >
+        <Suspense fallback={<AgentsViewLoading />}>
+          <ErrorBoundary fallback={<AgentsViewError />}>
             <AgentsView />
           </ErrorBoundary>
         </Suspense>
