@@ -93,7 +93,7 @@ export const AgentIdView = ({ agentId }: Props) => {
             </Badge>
             <div className="flex flex-col gap-y-4">
               <p className="text-lg font-medium">Instructions</p>
-              <p className="text-neutral-800">{data.instruction}</p>
+              <p className="text-neutral-800">{data.instructions}</p>
             </div>
           </div>
         </div>
