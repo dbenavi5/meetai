@@ -83,7 +83,7 @@ export const AgentForm = ({
     resolver: zodResolver(agentsInsertSchema),
     defaultValues: {
       name: initialValues?.name ?? "",
-      instruction: initialValues?.instruction ?? "",
+      instructions: initialValues?.instructions ?? "",
     },
   });
 
@@ -120,7 +120,7 @@ export const AgentForm = ({
           )}
         />
         <FormField
-          name="instruction"
+          name="instructions"
           control={form.control}
           render={({ field }) => (
             <FormItem>
