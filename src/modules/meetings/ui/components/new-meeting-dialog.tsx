@@ -19,7 +19,7 @@ export const NewMeetingDialog = ({
       title="New Meeting"
       description="Create new meeting"
       open={open}
-      onOpenChange={onOpenChange}
+      onOpenChange={() => onOpenChange(false)}
     >
       <MeetingForm
         onSuccess={(id) => {
