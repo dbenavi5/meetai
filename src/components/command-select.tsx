@@ -22,21 +22,26 @@ interface CommandSelectProps {
   onSearch?: (value: string) => void;
   value: string;
   placeholder?: string;
-//   isSearchable?: boolean;
+  //   isSearchable?: boolean;
   className?: string;
 }
-
 export const CommandSelect = ({
   options,
   onSelect,
   onSearch,
   value,
   placeholder = "Select an options",
-//   isSearchable,
+  //   isSearchable,
   className,
 }: CommandSelectProps) => {
   const [open, setOpen] = useState(false);
   const selectedOption = options.find((option) => option.value === value);
+
+  const handleOnChange = (open: boolean) => {
+    onSearch?.("");
+    setOpen(open);
+  };
+
   return (
     <>
       <Button
@@ -46,7 +51,7 @@ export const CommandSelect = ({
         className={cn(
           "h-9 justify-between font-normal px-2",
           !selectedOption && "text-muted-foreground",
-          className
+          className,
         )}
       >
         <div>{selectedOption?.children ?? placeholder}</div>
@@ -55,7 +60,7 @@ export const CommandSelect = ({
       <CommandResponsiveDialog
         shouldFilter={!onSearch}
         open={open}
-        onOpenChange={setOpen}
+        onOpenChange={handleOnChange}
       >
         <CommandInput placeholder="Search..." onValueChange={onSearch} />
         <CommandList>
