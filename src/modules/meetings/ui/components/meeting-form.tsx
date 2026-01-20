@@ -151,7 +151,7 @@ export const MeetingForm = ({
                             variant="botttsNeutral"
                             className="border size-6"
                           />
-                          <span className="">{agent.name}</span>
+                          <span>{agent.name}</span>
                         </div>
                       ),
                     }))}
