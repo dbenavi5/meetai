@@ -6,6 +6,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 
+/**
+ * Renders the main authentication UI, allowing users to sign up with email, name, and password, or log out if already authenticated.
+ *
+ * Displays a registration form for new users and shows the logged-in user's name with a logout option when authenticated.
+ */
 export default function Home() {
   const { data: session } = authClient.useSession();
 
