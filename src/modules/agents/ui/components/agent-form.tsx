@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { useForm } from "react-hook-form";
-// import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -35,7 +35,7 @@ export const AgentForm = ({
   initialValues,
 }: AgentFormProps) => {
   const trpc = useTRPC();
-  //   const router = useRouter();
+    const router = useRouter();
   const queryClient = useQueryClient();
 
   const createAgent = useMutation(
@@ -44,15 +44,19 @@ export const AgentForm = ({
         await queryClient.invalidateQueries(
           trpc.agents.getMany.queryOptions({})
         );
-
-        // TODO: invalidate free tier usage
+        
+        await queryClient.invalidateQueries(
+          trpc.premium.getFreeUsage.queryOptions()
+        );
 
         onSuccess?.();
       },
       onError: (error) => {
         toast.error(error.message);
 
-        //   TODO: Check if error code is 'FORBIDDEN', redirect to "/upgrade".
+        if (error.data?.code === 'FORBIDDEN') {
+          router.push('/upgrade')
+        }
       },
     })
   );
@@ -73,8 +77,6 @@ export const AgentForm = ({
       },
       onError: (error) => {
         toast.error(error.message);
-
-        //   TODO: Check if error code is 'FORBIDDEN', redirect to "/upgrade".
       },
     })
   );
@@ -141,7 +143,7 @@ export const AgentForm = ({
               variant="ghost"
               disabled={isPending}
               type="button"
-              onClick={() => onCancel}
+              onClick={onCancel}
               className="mr-2"
             >
               Cancel

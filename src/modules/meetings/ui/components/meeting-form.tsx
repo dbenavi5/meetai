@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-// import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -39,7 +39,7 @@ export const MeetingForm = ({
   initialValues,
 }: MeetingFormProps) => {
   const trpc = useTRPC();
-  //   const router = useRouter();
+  const router = useRouter();
   const [openNewAgentDialog, setOpenNewAgentDialog] = useState(false);
   const [agentSearch, setAgentSearch] = useState("");
 
@@ -47,7 +47,7 @@ export const MeetingForm = ({
     trpc.agents.getMany.queryOptions({
       pageSize: 100,
       search: agentSearch,
-    })
+    }),
   );
 
   const queryClient = useQueryClient();
@@ -56,41 +56,43 @@ export const MeetingForm = ({
     trpc.meetings.create.mutationOptions({
       onSuccess: async (data) => {
         await queryClient.invalidateQueries(
-          trpc.meetings.getMany.queryOptions({})
+          trpc.meetings.getMany.queryOptions({}),
         );
 
-        // TODO: invalidate free tier usage
+        await queryClient.invalidateQueries(
+          trpc.premium.getFreeUsage.queryOptions()
+        );
 
         onSuccess?.(data.id);
       },
       onError: (error) => {
         toast.error(error.message);
 
-        //   TODO: Check if error code is 'FORBIDDEN', redirect to "/upgrade".
+        if (error.data?.code === 'FORBIDDEN') {
+          router.push('/upgrade')
+        }
       },
-    })
+    }),
   );
 
   const updateMeeting = useMutation(
     trpc.meetings.update.mutationOptions({
       onSuccess: async () => {
         await queryClient.invalidateQueries(
-          trpc.meetings.getMany.queryOptions({})
+          trpc.meetings.getMany.queryOptions({}),
         );
 
         if (initialValues?.id) {
           await queryClient.invalidateQueries(
-            trpc.meetings.getOne.queryOptions({ id: initialValues.id })
+            trpc.meetings.getOne.queryOptions({ id: initialValues.id }),
           );
         }
         onSuccess?.();
       },
       onError: (error) => {
         toast.error(error.message);
-
-        //   TODO: Check if error code is 'FORBIDDEN', redirect to "/upgrade".
       },
-    })
+    }),
   );
 
   const form = useForm<z.infer<typeof meetingsInsertSchema>>({
@@ -181,14 +183,14 @@ export const MeetingForm = ({
                 variant="ghost"
                 disabled={isPending}
                 type="button"
-                onClick={() => onCancel}
+                onClick={onCancel}
                 className="mr-2"
               >
                 Cancel
               </Button>
             )}
             <Button disabled={isPending} type="submit">
-              {isEdit ? "Update Agent" : "Create Agent"}
+              {isEdit ? "Update Meeting" : "Create Meeting"}
             </Button>
           </div>
         </form>
