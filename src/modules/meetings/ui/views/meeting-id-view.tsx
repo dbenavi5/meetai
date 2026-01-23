@@ -46,7 +46,7 @@ export const MeetingIdView = ({ meetingId }: Props) => {
     trpc.meetings.remove.mutationOptions({
       onSuccess: async () => {
         await queryClient.invalidateQueries(
-          trpc.meetings.getMany.queryOptions({})
+          trpc.meetings.getMany.queryOptions({}),
         );
 
         await queryClient.invalidateQueries(
@@ -92,13 +92,7 @@ export const MeetingIdView = ({ meetingId }: Props) => {
         {isProcessing && <ProcessinigState />}
         {isCompleted && <CompletedState data={data} />}
         {isActive && <ActiveState meetingId={meetingId} />}
-        {isUpcoming && (
-          <UpcomingState
-            meetingId={meetingId}
-            onCancelMeeting={() => {}}
-            isCancelling={false}
-          />
-        )}
+        {isUpcoming && <UpcomingState meetingId={meetingId} />}
       </div>
     </>
   );
