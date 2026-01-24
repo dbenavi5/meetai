@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, useEffect } from "react";
 import { LoaderIcon } from "lucide-react";
 

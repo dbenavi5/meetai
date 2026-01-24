@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import { StreamTheme, useCall } from "@stream-io/video-react-sdk";
 import { CallLobby } from "./call-lobby";
