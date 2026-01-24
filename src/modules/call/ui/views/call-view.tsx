@@ -1,7 +1,6 @@
 "use client";
 
 import { ErrorState } from "@/components/error-state";
-// import { LoadingState } from "@/components/loading-state";
 import { useTRPC } from "@/trpc/client";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { CallProvider } from "../components/call-provider";
@@ -28,21 +27,3 @@ export const CallView = ({ meetingId }: Props) => {
   }
   return <CallProvider meetingId={meetingId} meetingName={data.name} />;
 };
-
-// export const CallViewLoading = () => {
-//   return (
-//     <LoadingState
-//       title="Loading Agents"
-//       description="This may take a few seconds..."
-//     />
-//   );
-// };
-
-// export const CallViewError = () => {
-//   return (
-//     <ErrorState
-//       title="Failed to load agents"
-//       description="There was an error loading the agents. Please try again later."
-//     />
-//   );
-// };
