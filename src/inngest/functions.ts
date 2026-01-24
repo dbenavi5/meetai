@@ -39,7 +39,7 @@ export const meetingProcessing = inngest.createFunction(
   async ({ event, step }) => {
 
     // for production
-    const response = await step.run('fetch-transript', async () => {
+    const response = await step.run('fetch-transcript', async () => {
       return fetch(event.data.transcriptUrl).then((res) => res.text());
     });
 
