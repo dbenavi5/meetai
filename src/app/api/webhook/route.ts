@@ -235,7 +235,7 @@ export async function POST(req: NextRequest) {
                     ...previousMessages,
                     { role: "user", content: text },
                 ],
-                model: 'gpt-4o',
+                model: 'gpt-5',
             });
 
             const GPTResponseText = GPTResponse.choices[0].message.content;
