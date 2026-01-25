@@ -8,4 +8,5 @@ export const { GET, POST, PUT } = serve({
     functions: [
         meetingProcessing,
     ],
+    streaming: "allow",
 });

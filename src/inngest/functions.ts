@@ -30,7 +30,7 @@ const summarizer = createAgent({
     - Feature X automatically does Y
     - Mention of integration with Z
   `.trim(),
-  model: openai({ model: 'gpt-5', apiKey: process.env.OPENAI_API_KEY }),
+  model: openai({ model: 'gpt-4o-realtime-preview', apiKey: process.env.OPENAI_API_KEY }),
 });
 
 export const meetingProcessing = inngest.createFunction(
@@ -46,6 +46,14 @@ export const meetingProcessing = inngest.createFunction(
     const transcript = await step.run('parse-transcript', async () => {
       return JSONL.parse<StreamTranscriptItem>(response);
     });
+    
+    // For development
+    // const response = await step.fetch(event.data.transcriptUrl);
+
+    // const transcript = await step.run('parse-transcript', async () => {
+    //   const text = await response.text();
+    //   return JSONL.parse<StreamTranscriptItem>(text);
+    // })
 
     const transcriptWithSpeaker = await step.run('add-speakers', async () => {
       const speakerIds = [

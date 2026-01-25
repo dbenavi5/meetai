@@ -58,11 +58,11 @@ export const meetingsRouter = createTRPCRouter({
         });
       }
 
-      if (!existingMeeting.transciptUrl) {
+      if (!existingMeeting.transcriptUrl) {
         return [];
       }
 
-      const transcript = await fetch(existingMeeting.transciptUrl)
+      const transcript = await fetch(existingMeeting.transcriptUrl)
         .then((res) => res.text())
         .then((text) => JSONL.parse<StreamTranscriptItem>(text))
         .catch(() => {
