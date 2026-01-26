@@ -14,6 +14,7 @@ export const metadata: Metadata = {
   description: "Meet AI is an AI-powered meeting assistant that records, transcribes, summarizes, and organizes conversations into actionable insights.",
   icons: {
     icon: '/logo.svg',
+    apple: '/logo.svg',
   }
 };
 
